@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_simplelist.*
 
 /**
  * 最简单的列表使用，仅需导入lifecycle库即可
+ * 仅使用LiveData数据同步功能
  */
 class SimplelistActivity : AppCompatActivity() {
     private var texts = MutableLiveData<MutableList<String>>()
