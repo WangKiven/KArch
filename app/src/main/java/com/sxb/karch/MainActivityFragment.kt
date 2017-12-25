@@ -1,9 +1,6 @@
 package com.sxb.karch
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.*
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -44,7 +41,7 @@ class MainActivityFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val model = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         Thread(Runnable { AppDatabase.getInstance(context).userDao().deleteAllUser() }).start()
 
@@ -73,19 +70,14 @@ class MainActivityFragment : Fragment() {
         })
 
 
-
-
-
-
-
         // TODO: 2017/12/21 ----------------------- 其他功能 ------------------------------
         btn_samplelist.setOnClickListener {
             startActivity(Intent(activity, SimplelistActivity::class.java))
         }
-        btn_listwithpage.setOnClickListener{
+        btn_listwithpage.setOnClickListener {
             startActivity(Intent(activity, ListWithPageActivity::class.java))
         }
-        btn_listpagewithdb.setOnClickListener{
+        btn_listpagewithdb.setOnClickListener {
             startActivity(Intent(activity, ListPageWithDbActivity::class.java))
         }
         btn_list.setOnClickListener {

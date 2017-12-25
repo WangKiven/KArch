@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_simplelist.*
 /**
  * 相关文档：https://developer.android.google.cn/reference/android/support/v7/recyclerview/extensions/ListAdapter.html
  * 优点：ListAdapter会对比新旧数据，检测新增、删除数据并动画实现
+ * 缺点：需要外部持有数据，造成多处持有相同数据
  */
 class ListActivity : AppCompatActivity() {
 
