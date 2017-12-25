@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_simplelist.*
 
 /**
  * 相关文档：https://developer.android.google.cn/reference/android/support/v7/recyclerview/extensions/ListAdapter.html
+ * 优点：ListAdapter会对比新旧数据，检测新增、删除数据并动画实现
  */
 class ListActivity : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class ListActivity : AppCompatActivity() {
                 users[3] = users[3].copy(name = "kiven")
             }
 
-            if (users.size > 7) {
+            if (users.size > 15) {
                 users.removeAt(4)
             }
 
