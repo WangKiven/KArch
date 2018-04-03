@@ -8,8 +8,15 @@ import android.arch.persistence.room.*
  * Created by wangk on 2017/12/20.
  */
 @Entity(tableName = "User")
-data class User(@PrimaryKey
-           @ColumnInfo(name = "userId") var id: Int, var account: String, var name: String)
+class User(){
+    @PrimaryKey
+    @ColumnInfo(name = "userId")
+    var id: Int = 0
+    @ColumnInfo(name = "account")
+    var account: String = ""
+    var name: String = ""
+}
+
 
 @Dao
 interface UserDao {

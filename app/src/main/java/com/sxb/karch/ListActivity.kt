@@ -1,12 +1,11 @@
 package com.sxb.karch
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.recyclerview.extensions.DiffCallback
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,7 @@ class ListActivity : AppCompatActivity() {
         }
 
         data.value = users
-        data.observe(this, Observer { adapter.setList(it) })
+        data.observe(this, Observer { adapter.submitList(it) })
     }
 
     private inner class MyHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -56,24 +55,22 @@ class ListActivity : AppCompatActivity() {
             v.setPadding(20, 120, 20, 120)
         }
 
-        fun bindData(user:  User?) {
+        fun bindData(user: User?) {
             (itemView as TextView).text = user?.name
         }
     }
 
-    private inner class MyDiffCallback : DiffCallback<User>() {
+    private inner class MyDiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean = oldItem == newItem
     }
 
     private inner class MyAdapter : ListAdapter<User, MyHolder>(MyDiffCallback()) {
-        override fun onBindViewHolder(holder: MyHolder?, position: Int) {
-            holder?.bindData(getItem(position))
+        override fun onBindViewHolder(holder: MyHolder, position: Int) {
+            holder.bindData(getItem(position))
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder
-                = MyHolder(TextView(this@ListActivity))
-
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder = MyHolder(TextView(this@ListActivity))
     }
 }

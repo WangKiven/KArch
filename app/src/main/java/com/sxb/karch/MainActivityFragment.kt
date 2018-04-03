@@ -39,30 +39,32 @@ class MainActivityFragment : Fragment() {
 
     private lateinit var user: User
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val model = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        Thread(Runnable { AppDatabase.getInstance(context).userDao().deleteAllUser() }).start()
+        model.count = 100
+
+        Thread(Runnable { AppDatabase.getInstance(context!!).userDao().deleteAllUser() }).start()
 
         // TODO: 2017/12/21 ------------------------简单功能-----------------------------
         // 点击按钮，保存数据
         btn_save.setOnClickListener {
             val text = et_name.editText?.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                Thread(Runnable { AppDatabase.getInstance(context).userDao().insertUser(user.copy(name = text)) }).start()
+                Thread(Runnable { AppDatabase.getInstance(context!!).userDao().insertUser(user.copy(name = text)) }).start()
             }
         }
 
         // 观察数据，改变界面
         val id = 13
-        AppDatabase.getInstance(context).userDao().loadUser(id).observe(this, Observer {
+        AppDatabase.getInstance(context!!).userDao().loadUser(id).observe(this, Observer {
             user = it ?: User(id, "", "")
             et_name.hint = user.name
         })
 
         // 观察数据库变换，打印所有数据
-        AppDatabase.getInstance(context).userDao().loadAllUser().observe(this, Observer {
+        AppDatabase.getInstance(context!!).userDao().loadAllUser().observe(this, Observer {
             if (it != null)
                 for (user in it) {
                     Log.i("ULog_default", "${user.id}:${user.name}")

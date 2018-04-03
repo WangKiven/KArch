@@ -61,7 +61,7 @@ class SimplelistActivity : AppCompatActivity() {
 
         override fun getItemCount(): Int = texts.value?.size ?: 0
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder
                 = MyHolder(TextView(this@SimplelistActivity))
     }
 }

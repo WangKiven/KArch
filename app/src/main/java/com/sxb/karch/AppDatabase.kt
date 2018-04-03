@@ -12,19 +12,22 @@ import com.sxb.karch.db.UserDao
 /**
  * Created by wangk on 2017/12/20.
  */
-@Database(entities = [User::class], version = 2)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
-        @Volatile private var INSTANCE: AppDatabase? = null
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
         fun getInstance(context: Context) =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) = Room
-                .databaseBuilder(context.applicationContext, AppDatabase::class.java, "karch.db")
+//                .databaseBuilder(context.applicationContext, AppDatabase::class.java, "karch.db")
+                .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
                 .fallbackToDestructiveMigration()
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {

@@ -5,7 +5,8 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedListAdapter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.recyclerview.extensions.DiffCallback
+//import android.support.v7.recyclerview.extensions.DiffCallback
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,8 @@ class ListPageWithDbActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         LivePagedListBuilder<Int, User>(AppDatabase.getInstance(this).userDao().loadAllUser2(), 7)
                 .build().observe(this, Observer {
-            adapter.setList(it)
+//            adapter.setList(it)
+                    adapter.submitList(it)
         })
     }
 
@@ -47,7 +49,12 @@ class ListPageWithDbActivity : AppCompatActivity() {
         }
     }
 
-    private inner class MyDiffCallback : DiffCallback<User>() {
+    /*private inner class MyDiffCallback : DiffCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean = oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean = oldItem == newItem
+    }*/
+    private inner class MyDiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean = oldItem == newItem
@@ -58,7 +65,7 @@ class ListPageWithDbActivity : AppCompatActivity() {
             holder.bindData(getItem(position))
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyHolder
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder
                 = MyHolder(TextView(this@ListPageWithDbActivity))
     }
 }
